@@ -82,7 +82,7 @@ const stage = {
     },
     doAttack(attacking, attacked){
         if(attacking.life <= 0 || attacked.life <= 0){
-            console.log("Atacando ou atacado já morreu!");
+            log.addMessage("Atacando ou atacado já morreu!");
             return;
         }
 
@@ -95,13 +95,28 @@ const stage = {
         if(actualAttack > actualDefense){
             attacked.life -= actualAttack;
             attacked.life = attacked.life < 0 ? 0 : attacked.life;
-            console.log(`${attacking.name} causou ${actualAttack.toFixed(2)} de dano em ${attacked.name}`);
+            log.addMessage(`${attacking.name} causou ${actualAttack.toFixed(2)} de dano em ${attacked.name}`);
         }
         else{
-            console.log(`${attacked.name} conseguiu defender o ataque de ${attacking.name}`);
+            log.addMessage(`${attacked.name} conseguiu defender o ataque de ${attacking.name}`);
         }
 
 
         this.update();
+    }
+}
+
+const log = {
+    list: [],
+    addMessage(msg){
+        this.list.push(msg)
+        this.render()
+    },
+    render(){
+        const logEl = document.querySelector('.log')
+        logEl.innerHTML = ''
+        for(let i in this.list){
+            logEl.innerHTML += `<li>${this.list[i]}</li>`
+        }
     }
 }
